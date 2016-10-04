@@ -37,11 +37,8 @@ class FabricTwitterKitModule extends ReactContextBaseJavaModule implements Activ
         return "FabricTwitterKit";
     }
 
+    @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 sendCallback(true, false, false);
@@ -55,6 +52,7 @@ class FabricTwitterKitModule extends ReactContextBaseJavaModule implements Activ
         }
     }
 
+    @Override
     public void onNewIntent(Intent intent) {
     }
 

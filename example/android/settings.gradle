@@ -1,0 +1,6 @@
+rootProject.name = 'example'
+
+include ':app',
+        ':react-native-fabric-twitterkit'
+
+project(':react-native-fabric-twitterkit').projectDir = new File(rootProject.projectDir, '../../android')

@@ -1,6 +1,7 @@
 package com.tkporter.fabrictwitterkit;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -8,9 +9,6 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 
-import android.content.Intent;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,14 +19,12 @@ public class FabricTwitterKitPackage implements ReactPackage {
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactApplicationContext) {
-        //List<NativeModule> modules = new ArrayList<>();
-        //return modules;
         twitterKitModule = new FabricTwitterKitModule(reactApplicationContext);
         if (instance == null) {
             instance = this;
         }
 
-        return Arrays.<NativeModule>asList(twitterKitModule);
+        return Collections.<NativeModule>singletonList(twitterKitModule);
     }
 
     @Override
@@ -38,9 +34,6 @@ public class FabricTwitterKitPackage implements ReactPackage {
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        //return Arrays.<ViewManager>asList(
-        //        new SendSMSModule()
-       // );
         return Collections.emptyList();
     }
 
