@@ -1,5 +1,5 @@
 {
-  "name": "react-native-fabric-twitterkit",
+  "name": "@drivetribe/react-native-fabric-twitterkit",
   "version": "0.0.1",
   "description": "A React Native library for Sending an SMS with Callback",
   "main": "index",
