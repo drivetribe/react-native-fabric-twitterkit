@@ -230,8 +230,10 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../ios/Pods/Headers/Public/TwitterKit/**",
-					"$(SRCROOT)/../react-native/React/**",
-					"$(SRCROOT)/../React/**",
+					"$(SRCROOT)/../react-native/React",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../React",
+					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/../../ios/Pods/Headers/Public/TwitterCore/**",
 				);
 				LIBRARY_SEARCH_PATHS = "";
@@ -257,8 +259,10 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../ios/Pods/Headers/Public/TwitterKit/**",
-					"$(SRCROOT)/../react-native/React/**",
-					"$(SRCROOT)/../React/**",
+					"$(SRCROOT)/../react-native/React",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../React",
+					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/../../ios/Pods/Headers/Public/TwitterCore/**",
 				);
 				LIBRARY_SEARCH_PATHS = "";
