@@ -20,24 +20,6 @@ Follow "Set Up Kit" from official Fabric Android docs at [Fabric.io](https://doc
 
 Navigate to your `MainActivity.java` somewhere in `MyApp/android/app/src/main/java/...../MainActivity.java`
 
-```diff
-+ import com.tkporter.fabrictwitterkit.FabricTwitterKitPackage;
-
-...
-
-public class MainActivity extends ReactActivity {
-
-	.....
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-+ 		FabricTwitterKitPackage.getInstance().onActivityResult(requestCode, resultCode, data);
-	}
-
-	...
-
-}
-```
 
 Go to your `MyAppApplication.java` inside the same folder as `MainActivity.java`
 
@@ -46,20 +28,15 @@ Go to your `MyAppApplication.java` inside the same folder as `MainActivity.java`
 
 ...
 
-public final MyApp extends ....... {
-
-	...
+public final MyApp extends Application {
 
 	@Override List<ReactPackage> getPackages() {
 		return Arrays.<ReactPackage>asList(
 			...
-+			FabricTwitterKitPackage.getInstance(),
-			...
++			new FabricTwitterKitPackage()
 		);
 	}
-
 	...
-
 }
 ```
 
