@@ -29,6 +29,7 @@ class FabricTwitterKitModule extends ReactContextBaseJavaModule implements Activ
 
     FabricTwitterKitModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        reactContext.addActivityEventListener(this);
     }
 
 
