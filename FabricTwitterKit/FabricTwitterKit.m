@@ -7,9 +7,9 @@
 //
 
 #import "FabricTwitterKit.h"
-#import "RCTBridgeModule.h"
-#import "RCTEventDispatcher.h"
-#import "RCTBridge.h"
+#import <React/RCTBridgeModule.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTBridge.h>
 #import <TwitterKit/TwitterKit.h>
 
 @implementation FabricTwitterKit
