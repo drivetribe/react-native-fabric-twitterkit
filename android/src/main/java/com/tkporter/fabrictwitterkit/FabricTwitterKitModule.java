@@ -34,31 +34,26 @@ import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+class FabricTwitterKitModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
-public class FabricTwitterKitModule extends ReactContextBaseJavaModule implements ActivityEventListener {
-
-    public TwitterLoginButton loginButton;
-    private final ReactApplicationContext reactContext;
+    private TwitterLoginButton loginButton;
     private Callback callback = null;
     //112 is the average ascii value for every letter in 'twitter'
     private static final int REQUEST_CODE = 112112;
 
-    public FabricTwitterKitModule(ReactApplicationContext reactContext) {
+    FabricTwitterKitModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
+        reactContext.addActivityEventListener(this);
     }
-
 
     @Override
     public String getName() {
         return "FabricTwitterKit";
     }
 
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        onActivityResult(requestCode, resultCode, data);
-    }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 sendCallback(true, false, false);
@@ -72,10 +67,10 @@ public class FabricTwitterKitModule extends ReactContextBaseJavaModule implement
         }
     }
 
-    public void onNewIntent(Intent intent) {
+    @Override public void onNewIntent(Intent intent) {
     }
 
-    public void sendCallback(Boolean completed, Boolean cancelled, Boolean error) {
+    private void sendCallback(Boolean completed, Boolean cancelled, Boolean error) {
         if (callback != null) {
             callback.invoke(completed, cancelled, error);
             callback = null;
@@ -89,9 +84,12 @@ public class FabricTwitterKitModule extends ReactContextBaseJavaModule implement
 
             String body = options.hasKey("body") ? options.getString("body") : "";
 
-            TweetComposer.Builder builder = new TweetComposer.Builder(reactContext).text(body);
+            TweetComposer.Builder builder = new TweetComposer.Builder(getReactApplicationContext()).text(body);
             final Intent intent = builder.createIntent();
-            reactContext.startActivityForResult(intent, REQUEST_CODE, intent.getExtras());
+            Activity activity = getCurrentActivity();
+            if (activity != null) {
+                activity.startActivityForResult(intent, REQUEST_CODE, intent.getExtras());
+            }
 
         } catch (Exception e) {
             //error!
@@ -135,7 +133,7 @@ public class FabricTwitterKitModule extends ReactContextBaseJavaModule implement
                 public void success(Result<User> result) {
                     Gson gson = new Gson();
                     try {
-                        WritableMap map = (WritableMap) FabricTwitterKitUtils.jsonToWritableMap(gson.toJson(result.data));
+                        WritableMap map = FabricTwitterKitUtils.jsonToWritableMap(gson.toJson(result.data));
                         callback.invoke(null, map);
                     } catch (Exception exception) {
                         callback.invoke(exception.getMessage());
@@ -170,7 +168,7 @@ public class FabricTwitterKitModule extends ReactContextBaseJavaModule implement
                 public void onResponse(Call<Tweet> call, Response<Tweet> response) {
                     Gson gson = new Gson();
                     try {
-                        WritableMap map = (WritableMap)FabricTwitterKitUtils.jsonToWritableMap(gson.toJson(response.body()));
+                        WritableMap map = FabricTwitterKitUtils.jsonToWritableMap(gson.toJson(response.body()));
                         callback.invoke(null, map);
                     } catch (Exception exception) {
                         callback.invoke(exception.getMessage());
@@ -191,24 +189,22 @@ public class FabricTwitterKitModule extends ReactContextBaseJavaModule implement
 
     @ReactMethod
     public void logOut() {
-        TwitterCore.getInstance().logOut();
+        TwitterCore.getInstance().getSessionManager().clearActiveSession();
     }
 
     private boolean hasValidKey(String key, ReadableMap options) {
         return options.hasKey(key) && !options.isNull(key);
     }
 
-
-
-    class ReactNativeFabricApiClient extends TwitterApiClient {
-        public ReactNativeFabricApiClient(TwitterSession session) {
+    private class ReactNativeFabricApiClient extends TwitterApiClient {
+        ReactNativeFabricApiClient(TwitterSession session) {
             super(session);
         }
 
         /**
          * Provide CustomService with defined endpoints
          */
-        public CustomService getCustomService() {
+        CustomService getCustomService() {
             return getService(CustomService.class);
         }
     }
